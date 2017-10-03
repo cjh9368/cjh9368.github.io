@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="日常,hexo," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一直以来都想要搭建一个个人博客，前段时间花了一些时间在git pages上面注册了一个个人站点，用Hexo构建博客框架，并添加主题。这篇文章把这个搭建的过程记录一下，后续对这个系统的优化也会逐步更新到这篇博客。 创建git page项目首先在自己的github账户中创建一个github项目，项目名称取为(username).github.io，如下图所示。注意，username必须与github账">
+<meta name="keywords" content="日常,hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Git Pages和Hexo搭建个人博客">
+<meta property="og:url" content="http://yoursite.com/2017/10/03/build-blog/index.html">
+<meta property="og:site_name" content="C.J.H">
+<meta property="og:description" content="一直以来都想要搭建一个个人博客，前段时间花了一些时间在git pages上面注册了一个个人站点，用Hexo构建博客框架，并添加主题。这篇文章把这个搭建的过程记录一下，后续对这个系统的优化也会逐步更新到这篇博客。 创建git page项目首先在自己的github账户中创建一个github项目，项目名称取为(username).github.io，如下图所示。注意，username必须与github账">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/gitpages项目创建.png">
+<meta property="og:image" content="http://yoursite.com/img/settings设定.png">
+<meta property="og:image" content="http://yoursite.com/img/hexo代码结构.png">
+<meta property="og:image" content="http://yoursite.com/img/hexo初始界面.png">
+<meta property="og:image" content="http://yoursite.com/img/博客界面1.png">
+<meta property="og:updated_time" content="2017-10-03T07:17:26.331Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Git Pages和Hexo搭建个人博客">
+<meta name="twitter:description" content="一直以来都想要搭建一个个人博客，前段时间花了一些时间在git pages上面注册了一个个人站点，用Hexo构建博客框架，并添加主题。这篇文章把这个搭建的过程记录一下，后续对这个系统的优化也会逐步更新到这篇博客。 创建git page项目首先在自己的github账户中创建一个github项目，项目名称取为(username).github.io，如下图所示。注意，username必须与github账">
+<meta name="twitter:image" content="http://yoursite.com/img/gitpages项目创建.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/03/build-blog/"/>
+
+
+
+
+
+  <title>利用Git Pages和Hexo搭建个人博客 | C.J.H</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C.J.H</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">have fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/03/build-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChengJiaHui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C.J.H">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用Git Pages和Hexo搭建个人博客</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-03T08:56:53+08:00">
+                2017-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一直以来都想要搭建一个个人博客，前段时间花了一些时间在git pages上面注册了一个个人站点，用Hexo构建博客框架，并添加主题。这篇文章把这个搭建的过程记录一下，后续对这个系统的优化也会逐步更新到这篇博客。</p>
+<h3 id="创建git-page项目"><a href="#创建git-page项目" class="headerlink" title="创建git page项目"></a>创建git page项目</h3><p>首先在自己的github账户中创建一个github项目，项目名称取为(username).github.io，如下图所示。注意，username必须与github账户的名称相同，因为一个github账户只能绑定一个git page，需要通过用户名唯一关联。</p>
+<p><img src="/img/gitpages项目创建.png" alt="gitpages项目创建"></p>
+<p>创建完git page项目后再上传一个index.html（必须是这个名字）作为demo看一下git page的使用。上传方式和普通的github项目同步方式相同，如下所示。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">cd (项目维护的目录)</div><div class="line">git clone https://github.com/cjh9368/cjh9368.github.io.git  ##初始化本地项目</div><div class="line">touch index.html</div><div class="line">echo "Hello World" &gt; index.html  ##在inedex.html中写入hello world</div><div class="line">git add *                        ##将本地改动需要提交的文件放入暂存区，供commit原子性提交</div><div class="line">git commit -m "first commit" 	 ##将暂存区的改动文件提交到当前分支（即.git）	</div><div class="line">git push -u origin master		 ##将本地的分支提交至远程仓库的主分支中</div></pre></td></tr></table></figure>
+<p>这样就将index.html上传成功了，然后再在settings中将git page用于展示的分支设定为主分支。</p>
+<p><img src="/img/settings设定.png" alt="settings设定"></p>
+<p>经过上面的操作就用git page建好了一个个人站点了，网址就是工程名（也可以关联自己的域名，下面的Custom domain就是，只是我觉得这个域名挺好的就没改），例如我的是cjh9368.github.io，点进去就可以看到一个hello word 的网页，和本地看到的一样。</p>
+<h3 id="Hexo框架部署"><a href="#Hexo框架部署" class="headerlink" title="Hexo框架部署"></a>Hexo框架部署</h3><p>Hexo是一个简洁高效的博客框架，安装比较简单，需要预先安装一下node js和npm，这是具体的安装步骤。安装完成后在保存博客源码的路径用hexo init自动生成框架代码，如下图。</p>
+<p><img src="/img/hexo代码结构.png" alt="hexo 代码结构"></p>
+<p>其中_cofig.yml是hexo的配置文件，用任意文本编辑器打开后找到deploy字段，将其修改为如下格式，用于对博客代码自动部署。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">deploy:</span></div><div class="line"><span class="attr">  type:</span> <span class="string">git</span></div><div class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/cjh9368/cjh9368.github.io.git</span></div><div class="line"><span class="attr">  branch:</span> <span class="string">master</span></div></pre></td></tr></table></figure>
+<p>在终端中进入hexo init所在的文件夹执行hexo s就可以在本地跑一下hexo框架，在浏览器地址栏中输入localhost:4000就可以在本地预览hexo的博客界面，大概是这样的。</p>
+<p><img src="/img/hexo初始界面.png" alt="hexo初始界面"></p>
+<p>完成hexo本地部署后就可以将代码整体部署到刚才生成的git page上去了，部署的步骤也比较简单，执行以下命令即可。在刚才建的github工程中看到原来文件中的代码就说明部署成功了，此时在浏览器中输入(username).github.io就可以看到部署成功的页面了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean    ##清除缓存</div><div class="line">hexo g		  ##生成本地发布文件夹</div><div class="line">hexo d        ##将代码发布到git page上</div></pre></td></tr></table></figure>
+<h3 id="添加主题"><a href="#添加主题" class="headerlink" title="添加主题"></a>添加主题</h3><p>到了这一步可以说构建博客系统比较麻烦的一些东西都已经完成了，剩下的工作主要是让我的博客更加符合我自己的审美。首先，可以为博客添加一个主题。我使用的主题为nexT，添加方式也很简单，将主题所在的包git clone至hexo所在的路径。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd your-hexo-site</div><div class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</div></pre></td></tr></table></figure>
+<p>之后在_cofig.yml将相应的theme字段设置为next即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: next</div></pre></td></tr></table></figure>
+<h3 id="功能完善"><a href="#功能完善" class="headerlink" title="功能完善"></a>功能完善</h3><p>这一部分主要是一些杂七杂八的操作，目的是使我们的博客看起来更像一个博客。</p>
+<h4 id="基本信息修改"><a href="#基本信息修改" class="headerlink" title="基本信息修改"></a>基本信息修改</h4><p>首先要修改博客的名称、作者名称、座右铭和语言之类的东西，这部分修改在站点__config.yaml开始的地方，修改方法如下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">title: C.J.H</div><div class="line">subtitle: have fun</div><div class="line">description:</div><div class="line">author: ChengJiaHui</div><div class="line">language: zh-Hans</div></pre></td></tr></table></figure>
+<p>此外还可以给自己添加头像，这部分需要在主题的__config.yaml中添加avatar字段，字段的value填写头像图片所在的路径，绝对路径从hexo文件夹的source路径算起。例如，我的图像存在/hexoBlog/source/img/avatar.jpg，那么路径就应该填写/img/avatar.jpg。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">avatar: /img/avatar.jpg</div></pre></td></tr></table></figure>
+<h4 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h4><p>一个博客最核心的部分就是博文了，hexo的博文是用Markdown写的。hexo发布博文的命令如下所示，其中layout是文件布局的参数，主要包含post、page和draft三种。post表示将博文直接发布出来（存在source/_post 中）；page表示发布一个页面，例如归类页、标签页之类（直接存在source目录下）；draft表示先写一个草稿（存在source/draft中），完成后可以用publish将草稿移到post目录下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hexo new [layout] &lt;title&gt;</div><div class="line">hexo new post "hello world" #生成hello-world.md</div><div class="line">hexo new page "categories"	#创建归档页</div><div class="line">hexo new draft "test"		#创建草稿页test.md</div><div class="line">hexo publish "test"			#发布草稿页</div></pre></td></tr></table></figure>
+<h4 id="添加归档、标签"><a href="#添加归档、标签" class="headerlink" title="添加归档、标签"></a>添加归档、标签</h4><p>当博文数量到一定程度后，就需要对博文分类和添加标签来方便管理博文。注意到上文生成的md文件开头的部分有一个文章的属性列表，在这个属性列表添加tags和categories两个字段就能赋予一篇博文标签和分类的属性。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">title:</span> <span class="string">利用Git</span> <span class="string">Pages和Hexo搭建个人博客</span></div><div class="line"><span class="attr">date:</span> <span class="number">2017</span><span class="bullet">-10</span><span class="bullet">-03</span> <span class="number">08</span><span class="string">:56:53</span></div><div class="line"><span class="attr">tags:</span> </div><div class="line"><span class="bullet">-</span> <span class="string">日常</span></div><div class="line"><span class="bullet">-</span> <span class="string">hexo</span></div><div class="line"><span class="attr">categories:</span> <span class="string">前端</span></div><div class="line"><span class="meta">---</span></div></pre></td></tr></table></figure>
+<p>再用hexo new page命令创建归档页和标签页，就能整体的看到博客系统的所有博文属性了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo new page "categories"</div><div class="line">hexo new page "tags"</div></pre></td></tr></table></figure>
+<h4 id="博文预览"><a href="#博文预览" class="headerlink" title="博文预览"></a>博文预览</h4><p>hexo默认的主页显示的是所有博文的所有内容。这显然是不合理的，通常读者看一个博客首先不需要了解所有博客的所有内容，而只需要看一下每篇博文的大致内容或者标题，然后按照自己的兴趣去看想要的博文。此时，就需要在主页添加博文预览功能，nexT主题本身包含这一功能，只需要将主题__config.yaml文件下的auto_excerpt字段中的enable改为true即可。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Automatically Excerpt. Not recommand.</span></div><div class="line"><span class="comment"># Please use &lt;!-- more --&gt; in the post to control excerpt accurately.</span></div><div class="line"><span class="attr">auto_excerpt:</span></div><div class="line"><span class="attr">enable:</span> <span class="literal">false</span></div><div class="line"><span class="attr">length:</span> <span class="number">150</span></div></pre></td></tr></table></figure>
+<p>综上，一个个人博客系统就基本搭建完成了。我的博客显示效果是下面这样的，enjoy it。</p>
+<p><img src="/img/博客界面1.png" alt="博客界面"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/日常/" rel="tag"># 日常</a>
+          
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/02/linux-learning/" rel="next" title="鸟哥的linux私房菜整理（1）---文件系统、磁盘">
+                <i class="fa fa-chevron-left"></i> 鸟哥的linux私房菜整理（1）---文件系统、磁盘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.jpg"
+                alt="ChengJiaHui" />
+            
+              <p class="site-author-name" itemprop="name">ChengJiaHui</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建git-page项目"><span class="nav-number">1.</span> <span class="nav-text">创建git page项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo框架部署"><span class="nav-number">2.</span> <span class="nav-text">Hexo框架部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加主题"><span class="nav-number">3.</span> <span class="nav-text">添加主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#功能完善"><span class="nav-number">4.</span> <span class="nav-text">功能完善</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本信息修改"><span class="nav-number">4.1.</span> <span class="nav-text">基本信息修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布文章"><span class="nav-number">4.2.</span> <span class="nav-text">发布文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加归档、标签"><span class="nav-number">4.3.</span> <span class="nav-text">添加归档、标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#博文预览"><span class="nav-number">4.4.</span> <span class="nav-text">博文预览</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChengJiaHui</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

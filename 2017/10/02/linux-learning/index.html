@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文用于整理鸟哥的linux私房菜中关于文件系统、磁盘相关的知识，主要包括下面几个方面：  linux用户组与权限配置 linux目录配置 linux文件和目录管理 linux文件系统和磁盘挂载 linux压缩和打包相关   linux用户组与权限配置基本权限linux任何一个文件或目录都具有User、Group和Others三个身份的个别权限。分别表示文件所有者、所在组别和既非文件所有者也非同一">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鸟哥的linux私房菜整理（1）---文件系统、磁盘">
+<meta property="og:url" content="http://yoursite.com/2017/10/02/linux-learning/index.html">
+<meta property="og:site_name" content="C.J.H">
+<meta property="og:description" content="本文用于整理鸟哥的linux私房菜中关于文件系统、磁盘相关的知识，主要包括下面几个方面：  linux用户组与权限配置 linux目录配置 linux文件和目录管理 linux文件系统和磁盘挂载 linux压缩和打包相关   linux用户组与权限配置基本权限linux任何一个文件或目录都具有User、Group和Others三个身份的个别权限。分别表示文件所有者、所在组别和既非文件所有者也非同一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/权限属性.gif">
+<meta property="og:image" content="http://yoursite.com/img/suid.gif">
+<meta property="og:image" content="http://yoursite.com/img/directory_tree.gif">
+<meta property="og:updated_time" content="2017-10-03T01:09:10.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="鸟哥的linux私房菜整理（1）---文件系统、磁盘">
+<meta name="twitter:description" content="本文用于整理鸟哥的linux私房菜中关于文件系统、磁盘相关的知识，主要包括下面几个方面：  linux用户组与权限配置 linux目录配置 linux文件和目录管理 linux文件系统和磁盘挂载 linux压缩和打包相关   linux用户组与权限配置基本权限linux任何一个文件或目录都具有User、Group和Others三个身份的个别权限。分别表示文件所有者、所在组别和既非文件所有者也非同一">
+<meta name="twitter:image" content="http://yoursite.com/img/权限属性.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/02/linux-learning/"/>
+
+
+
+
+
+  <title>鸟哥的linux私房菜整理（1）---文件系统、磁盘 | C.J.H</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C.J.H</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">have fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/02/linux-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChengJiaHui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C.J.H">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">鸟哥的linux私房菜整理（1）---文件系统、磁盘</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-02T19:44:40+08:00">
+                2017-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文用于整理鸟哥的linux私房菜中关于文件系统、磁盘相关的知识，主要包括下面几个方面：</p>
+<ul>
+<li><strong>linux用户组与权限配置</strong></li>
+<li><strong>linux目录配置</strong></li>
+<li><strong>linux文件和目录管理</strong></li>
+<li><strong>linux文件系统和磁盘挂载</strong></li>
+<li><strong>linux压缩和打包相关</strong></li>
+</ul>
+<hr>
+<h2 id="linux用户组与权限配置"><a href="#linux用户组与权限配置" class="headerlink" title="linux用户组与权限配置"></a><strong>linux用户组与权限配置</strong></h2><h3 id="基本权限"><a href="#基本权限" class="headerlink" title="基本权限"></a><strong>基本权限</strong></h3><p>linux任何一个文件或目录都具有User、Group和Others三个身份的个别权限。分别表示文件所有者、所在组别和既非文件所有者也非同一组别的用户对该文件的权限。此外root用户拥有对所有文件的全部权限。关于用户及root的信息存在/etc/passwd中,组名存在/etc/group中,个人的密码存在/etc/shadow中。<br>需要查询linux的文件属性可以用ls -al命令，ls是list的意思,-al表示输出当前目录下所有文件拥有的权限和属性。出现的七个字段的意义如下：<br><img src="/img/权限属性.gif" alt="">  </p>
+<p>第一栏分别表示文件的类型（文件、目录或链接文件），文件拥有者、管理组和others所拥有的对文件操作的权限。三个权限分别为可读、可写和可执行。后面几栏的意义如图所示。<br>改变文件属性的命令主要有三个：chgrp、chown和chmod，分别用于改变文件的群组、用户和权限。<br>chgrp是change group的意思,用法如下,其中-R表示递归的改变目录下所有文件的群组。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">chgrp [-R] group dirname/filename</div><div class="line">chgrp users install.log</div><div class="line">chgrp -R users tmp</div><div class="line">```  </div><div class="line">chown是change owner的意思，其中的owner必须是/etc/passwd中存在的用户，另外还可以用于改变文件所在的群组，它的用法如下。 </div><div class="line"></div><div class="line">```shell</div><div class="line">chown [-R] owner dirname/filename</div><div class="line">chown [-R] owner group dirname/filename</div><div class="line">chown bin install.log</div><div class="line">chown root root install.log</div><div class="line">```  </div><div class="line">chmod是change mode的意思。文件的权限字符为-rwxrwxrwx，分别表示用户、群组和others的rwx权限，rwx分别用4、2、1表示，对于一部分的权限将这三个分数叠加即可，例如将某个文件test的权限配置为[-rwxrwx---]，则它的分数为：</div><div class="line"></div><div class="line">```  </div><div class="line">owner = rwx = 4+2+1 = 7  </div><div class="line">group = rwx = 4+2+1 = 7  </div><div class="line">others= --- = 0+0+0 = 0</div></pre></td></tr></table></figure>
+<p>配置命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 770 test</div></pre></td></tr></table></figure></p>
+<p>此外，chmod还有一种符号改变权限的方法，如下所示： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod u=rwx,go=rx <span class="built_in">test</span></div></pre></td></tr></table></figure>
+<h3 id="默认权限"><a href="#默认权限" class="headerlink" title="默认权限"></a><strong>默认权限</strong></h3><p>文件默认权限可以通过umask查看。和前面chmod的分数不同，umask的分数为默认值需要减去的权限，r、w、x分别为4、2、1，若创建为文件，则默认没有可运行权限，最大只有666分，若创建为目录则默认所有权限均开放，最大为777分。举个例子，如果查到umask分数为022，那么就说明被拿掉了group和others的w权限，所以对于文件和目录相应的权限计算就如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">创建文件时：(-rw-rw-rw-) - (-----w--w-) ==&gt; -rw-r--r--</div><div class="line">创建目录时：(drwxrwxrwx) - (d----w--w-) ==&gt; drwxr-xr-x</div></pre></td></tr></table></figure></p>
+<p>另外，对于umask而言更重要的特性是可以为不同的目标定制权限，例如要设置只有文件的所有者可以修改所有文件，那么可以设置umask为022，拿掉除创建用户外所有用户的w权限，如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">umask</span> 022</div></pre></td></tr></table></figure></p>
+<h3 id="隐藏权限"><a href="#隐藏权限" class="headerlink" title="隐藏权限"></a><strong>隐藏权限</strong></h3><p>除了上面的9个权限外，在ext2/ext3文件系统中还有一些隐藏权限（A\S\a\c\d\i\s\u）其中最重要的权限为a和i，a权限表示用户只能对该文件进行添加操作，不能进行删除和修改操作，i权限表示该文件不能被删除、改名、配置链接，也无法对文件新增数据，只有root用户可以配置这个属性。<br>配置和查看这些隐藏属性可以通过chattr和lsattr进行，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">chattr [+-=][ASacdistu] 文件或目录名称</div><div class="line">lsattr [-adR] 文件或目录</div><div class="line"></div><div class="line">[root@www tmp]<span class="comment"># chattr +i attrtest &lt;==给予 i 的属性</span></div><div class="line">[root@www tmp]<span class="comment"># chattr +aij attrtest</span></div><div class="line">[root@www tmp]<span class="comment"># lsattr attrtest</span></div><div class="line">----ia---j--- attrtest</div></pre></td></tr></table></figure>
+<h3 id="特殊权限SUID、SGID"><a href="#特殊权限SUID、SGID" class="headerlink" title="特殊权限SUID、SGID"></a><strong>特殊权限SUID、SGID</strong></h3><p>此外，还有一种权限是在对某个文件具有x权限的用户暂时拥有这个文件所有者的权限。举个例子，linux中所有用户的密码都存放在/etc/shadow这个文件里面，这个文件的权限为-r——– 1 root root，只有root用户可以修改这个文件，对一般用户而言可以通过操作具有SUID权限的/usr/bin/passwd文件使得用户具有暂时的root权限来修改用户的密码，示意图如下：<br><img src="/img/suid.gif" alt=""><br>SGID权限也与之类似，只是改为拥有这个文件所在群组的权限。  </p>
+<h2 id="linux目录配置"><a href="#linux目录配置" class="headerlink" title="linux目录配置"></a><strong>linux目录配置</strong></h2><p>linux的目录配置遵循着FHS(Filesystem Hierarchy Standard )规则，将文件按照是否可以共享和是否可以改动定义为以下四种交互形式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:left">可共享</th>
+<th style="text-align:left">不可共享</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">不变</td>
+<td style="text-align:left">/usr (软件放置处)</td>
+<td style="text-align:left">/etc (配置文件)</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left">/opt (第三方软件)</td>
+<td style="text-align:left">/boot (开机档)</td>
+</tr>
+<tr>
+<td style="text-align:center">可变</td>
+<td style="text-align:left">/var/mail(邮箱)</td>
+<td style="text-align:left">/var/run</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left">/var/spool/news</td>
+<td style="text-align:left">/var/lock</td>
+</tr>
+</tbody>
+</table>
+<p>根目录是linux最重要的目录，FHS标准建议根目录所在的分隔槽越小越好，因为分隔槽越小放入的无关数据越少，越不容易发生错误。根目录下的主要文件夹及其用途如下所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">目录</th>
+<th style="text-align:left">应放置文件内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/bin</td>
+<td style="text-align:left">主要放置可执行文件，包括cat, chmod, chown, date, mv, mkdir, cp, bash等等常用的指令。</td>
+</tr>
+<tr>
+<td style="text-align:left">/boot</td>
+<td style="text-align:left">主要在放置开机会使用到的文件</td>
+</tr>
+<tr>
+<td style="text-align:left">/dev(device)</td>
+<td style="text-align:left">主要放置接口文件，如/dev/null, /dev/zero, /dev/tty, /dev/lp<em>, /dev/hd</em>, /dev/sd*等等</td>
+</tr>
+<tr>
+<td style="text-align:left">/etc</td>
+<td style="text-align:left">主要放置系统的配置文件，包括人员的账号密码文件、 各种服务的启始档等等。一般来说，这个目录下的各文件属性是可以让一般使用者查阅的， 但是只有root有权力修改。</td>
+</tr>
+<tr>
+<td style="text-align:left">/home</td>
+<td style="text-align:left">家目录，即~</td>
+</tr>
+<tr>
+<td style="text-align:left">/lib</td>
+<td style="text-align:left">主要放置库函数</td>
+</tr>
+<tr>
+<td style="text-align:left">/media</td>
+<td style="text-align:left">媒体文件夹，放置可以移除的设备包括光盘、DVD等</td>
+</tr>
+<tr>
+<td style="text-align:left">/mnt</td>
+<td style="text-align:left">暂时挂载一些额外的设备</td>
+</tr>
+<tr>
+<td style="text-align:left">/opt(optional application software packages)</td>
+<td style="text-align:left">第三方软件安装目录</td>
+</tr>
+<tr>
+<td style="text-align:left">/root</td>
+<td style="text-align:left">系统管理员的家目录</td>
+</tr>
+<tr>
+<td style="text-align:left">/sbin</td>
+<td style="text-align:left">用于设定系统环境的指令，这些指令只有root用户能使用，常见的包括：fdisk, fsck, ifconfig, init, mkfs等等。</td>
+</tr>
+<tr>
+<td style="text-align:left">/srv</td>
+<td style="text-align:left">网络服务包括WWW，FTP等</td>
+</tr>
+<tr>
+<td style="text-align:left">/tmp</td>
+<td style="text-align:left">临时文件存放位置</td>
+</tr>
+</tbody>
+</table>
+<p>除了上面FHS规定的这几个文件夹外，根目录下/usr和/var也很重要。usr的全称为Unix Software Resource(之前一直以为是user/(ㄒoㄒ)/~~)是unix系统软件资源放置位置，它的次目录与跟目录的次目录比较相似，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">目录</th>
+<th style="text-align:left">应放置文件内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/usr/bin/</td>
+<td style="text-align:left">绝大多数用户可以使用的指令，与/usr主要的差别在于不包括开机相关的指令</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/include/</td>
+<td style="text-align:left">c/c++使用的头文件存放位置</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/lib/</td>
+<td style="text-align:left">各种应用软件的函数库和目标文件</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/local/</td>
+<td style="text-align:left">系统管理员自行下载的软件建议安装到此目录，此目录下也有bin，etc，include，lib等此目录</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/sbin/</td>
+<td style="text-align:left">非系统正常运行所需的系统指令(没太明白)</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/share/</td>
+<td style="text-align:left">放置共享文件，住要为一些文本文件（说明文档、帮助文档）</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/src/</td>
+<td style="text-align:left">一般源代码存放位置</td>
+</tr>
+</tbody>
+</table>
+<p>var主要用于存储大型的数据文件，包括缓存文件、日志文件、软件运行时产生的文件以及数据库文件等，它的次目录结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">目录</th>
+<th style="text-align:left">应放置文件内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/var/cache/</td>
+<td style="text-align:left">应用程序本身的缓存文件</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/lib/</td>
+<td style="text-align:left">应用程序运行过程中本身所需要用到的数据文件放置位置，例如MySQL的数据库放置在/var/lib/mysql/</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/lock/</td>
+<td style="text-align:left">linux系统下挂载各个系统资源所需要的锁的存放位置</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/log/</td>
+<td style="text-align:left">登录文件放置的位置</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/mail/</td>
+<td style="text-align:left">个人电子邮箱的目录，和/var/spool/mail互为链接文件</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/run/</td>
+<td style="text-align:left">程序或服务启动时存放进程PID的位置</td>
+</tr>
+<tr>
+<td style="text-align:left">/var/spool/</td>
+<td style="text-align:left">存放进程的队列数据的位置</td>
+</tr>
+</tbody>
+</table>
+<p>综上，根目录下主要文件结构的目录树如下所示：<br><img src="/img/directory_tree.gif" alt=""></p>
+<h2 id="linux文件和目录管理"><a href="#linux文件和目录管理" class="headerlink" title="linux文件和目录管理"></a><strong>linux文件和目录管理</strong></h2><p>linux的文件查阅命令主要有下面几种：</p>
+<ul>
+<li><strong>cat由第一行开始显示文件内容</strong></li>
+<li><strong>tac从最后一行开始显示</strong></li>
+<li><strong>more一页一页的显示文件内容</strong></li>
+<li><strong>less与more 类似，但是比more更好的是，他可以往前翻页</strong></li>
+<li><strong>head只看头几行</strong></li>
+<li><strong>tail只看末尾几行</strong> </li>
+</ul>
+<p>cat的全称是concatenate，用法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cat <span class="built_in">test</span></div><div class="line">cat -n <span class="built_in">test</span> <span class="comment">#打印的同时显示行号</span></div></pre></td></tr></table></figure>
+<p>tac即从末尾往前显示，用法和cat相同。<br>more表示一页一页显示文件内容，首先执行more进入逐页浏览的状态（如下所示），然后按空格进入下一页，回车下一行，b往回翻页，完成浏览后按q退出浏览模式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@www ~]<span class="comment"># more /etc/man.config</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Generated automatically from man.conf.in by the</span></div><div class="line"><span class="comment"># configure script.</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># man.conf from man-1.6d</span></div><div class="line">....(中间省略)....</div><div class="line">--More--(28%)</div></pre></td></tr></table></figure>
+<p>less的功能与more类似，但是比more更加灵活，利用less进入浏览模式后可以输入以下命令继续浏览文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">空白键    ：向下翻动一页；</div><div class="line">[pagedown]：向下翻动一页；</div><div class="line">[pageup]  ：向上翻动一页；</div><div class="line">/字串     ：向下搜寻『字串』的功能；</div><div class="line">?字串     ：向上搜寻『字串』的功能；</div><div class="line">n         ：重复前一个搜寻 (与 / 或 ? 有关！)</div><div class="line">N         ：反向的重复前一个搜寻 (与 / 或 ? 有关！)</div><div class="line">q         ：离开 less 这个程序；</div></pre></td></tr></table></figure>
+<p>head和tail操作比较简单，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">head [-n number] 文件 </div><div class="line">head -n 20 /etc/man.config <span class="comment">#显示前20行</span></div><div class="line">head -n -100 /etc/man.config <span class="comment">#显示倒数100行之前的行数</span></div><div class="line"></div><div class="line">tail [-n number] 文件 </div><div class="line">tail -n 20 /etc/man.config</div><div class="line">tail -n +100 /etc/man.config <span class="comment">#显示100行以后的文件</span></div></pre></td></tr></table></figure>
+<h2 id="linux文件系统和磁盘挂载"><a href="#linux文件系统和磁盘挂载" class="headerlink" title="linux文件系统和磁盘挂载"></a><strong>linux文件系统和磁盘挂载</strong></h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/02/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/03/build-blog/" rel="prev" title="利用Git Pages和Hexo搭建个人博客">
+                利用Git Pages和Hexo搭建个人博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/img/avatar.jpg"
+                alt="ChengJiaHui" />
+            
+              <p class="site-author-name" itemprop="name">ChengJiaHui</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux用户组与权限配置"><span class="nav-number">1.</span> <span class="nav-text">linux用户组与权限配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本权限"><span class="nav-number">1.1.</span> <span class="nav-text">基本权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认权限"><span class="nav-number">1.2.</span> <span class="nav-text">默认权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐藏权限"><span class="nav-number">1.3.</span> <span class="nav-text">隐藏权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊权限SUID、SGID"><span class="nav-number">1.4.</span> <span class="nav-text">特殊权限SUID、SGID</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux目录配置"><span class="nav-number">2.</span> <span class="nav-text">linux目录配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux文件和目录管理"><span class="nav-number">3.</span> <span class="nav-text">linux文件和目录管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linux文件系统和磁盘挂载"><span class="nav-number">4.</span> <span class="nav-text">linux文件系统和磁盘挂载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChengJiaHui</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
