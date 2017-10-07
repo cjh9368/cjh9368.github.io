@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="数据挖掘,推荐系统," />
 
 
 
@@ -79,17 +79,22 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="评估一个分类算法效果的指标主要有准确率（precision）、召回率（recall）、AUC、gini系数和F1等，在不同的应用场景下这些指标都有相应的用处。 混淆矩阵以上的指标的计算都依赖于一个混淆矩阵，如下表所示，这个混淆矩阵包括四个变量TP、FP、FN、TN，分别表示实际为正确，预测也为正确；实际为错误，预测为正确；实际为正确，预测为错误；实际为错误，预测为错误。前面的T和F表示预测的正确与">
+<meta name="keywords" content="数据挖掘,推荐系统">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2017/10/02/hello-world/index.html">
+<meta property="og:title" content="理解二分类指标">
+<meta property="og:url" content="http://yoursite.com/2017/10/07/auc-recall/index.html">
 <meta property="og:site_name" content="C.J.H">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="评估一个分类算法效果的指标主要有准确率（precision）、召回率（recall）、AUC、gini系数和F1等，在不同的应用场景下这些指标都有相应的用处。 混淆矩阵以上的指标的计算都依赖于一个混淆矩阵，如下表所示，这个混淆矩阵包括四个变量TP、FP、FN、TN，分别表示实际为正确，预测也为正确；实际为错误，预测为正确；实际为正确，预测为错误；实际为错误，预测为错误。前面的T和F表示预测的正确与">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-02T08:15:49.559Z">
+<meta property="og:image" content="http://yoursite.com/img/混淆矩阵.png">
+<meta property="og:image" content="http://yoursite.com/img/ROC曲线.png">
+<meta property="og:image" content="http://yoursite.com/img/PR曲线.png">
+<meta property="og:updated_time" content="2017-10-07T06:09:26.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="理解二分类指标">
+<meta name="twitter:description" content="评估一个分类算法效果的指标主要有准确率（precision）、召回率（recall）、AUC、gini系数和F1等，在不同的应用场景下这些指标都有相应的用处。 混淆矩阵以上的指标的计算都依赖于一个混淆矩阵，如下表所示，这个混淆矩阵包括四个变量TP、FP、FN、TN，分别表示实际为正确，预测也为正确；实际为错误，预测为正确；实际为正确，预测为错误；实际为错误，预测为错误。前面的T和F表示预测的正确与">
+<meta name="twitter:image" content="http://yoursite.com/img/混淆矩阵.png">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/02/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/07/auc-recall/"/>
 
 
 
 
 
-  <title>Hello World | C.J.H</title>
+  <title>理解二分类指标 | C.J.H</title>
   
 
 
@@ -252,7 +257,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/02/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/07/auc-recall/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ChengJiaHui">
@@ -269,7 +274,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">理解二分类指标</h1>
         
 
         <div class="post-meta">
@@ -281,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-02T16:15:49+08:00">
-                2017-10-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-07T09:07:37+08:00">
+                2017-10-07
               </time>
             
 
@@ -291,6 +296,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据挖掘/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -319,15 +346,24 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>评估一个分类算法效果的指标主要有准确率（precision）、召回率（recall）、AUC、gini系数和F1等，在不同的应用场景下这些指标都有相应的用处。</p>
+<h3 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h3><p>以上的指标的计算都依赖于一个混淆矩阵，如下表所示，这个混淆矩阵包括四个变量TP、FP、FN、TN，分别表示实际为正确，预测也为正确；实际为错误，预测为正确；实际为正确，预测为错误；实际为错误，预测为错误。前面的T和F表示预测的正确与否，后面的P和N表示预测目标为正确与否。</p>
+<p><img src="/img/混淆矩阵.png" alt=""></p>
+<h3 id="基础指标"><a href="#基础指标" class="headerlink" title="基础指标"></a>基础指标</h3><p>准确率： Precision = TP/(TP+FP) </p>
+<p>表示为分类出为正确的数据中，实际也为正确的数据占比。以商品推荐为例，这个指标表示推荐的商品最终被点击或购买的商品比例。</p>
+<p>召回率： Recall = TP/(TP+FN)</p>
+<p>表示为实际正确的数据中被判别为正确的数据比例。仍以商品推荐为例，这个指标表示的是被购买的商品中被算法筛选出来的商品比例。</p>
+<p>F1：    F1 = 2PR/(P+R)</p>
+<p>F1是准确率和召回率综合起来的指标。</p>
+<h3 id="ROC曲线和相关指标"><a href="#ROC曲线和相关指标" class="headerlink" title="ROC曲线和相关指标"></a>ROC曲线和相关指标</h3><p>ROC曲线如下图所示，横坐标表示 FPR=FP/(FP+TN)，纵坐标表示召回率TPR=TP/(TP+FN)=Recall，这两个指标分别是实际错误和正确的数据被判别为正确的数据的比例。若为一个特征设定一个阈值来判别数据的正确与否，低于阈值的数据被判别为正确，否则被判别为错误。那么随着阈值的增加，数据被判别为正确的比例会越来越高，曲线从左往右走。如果这个走的趋势为红线的趋势，即FPR和TPR完全相同，那么证明无论结果实际是正确与否，判别为正确的概率是完全相同的，即用这个特征来判别得到的结果完全是随机的，这个特征是完全无效的。如果算法有效，ROC曲线应该是高于红线的，且曲线越往左上走说明随着阈值的增加，TPR的增速越高于FPR，算法效果越好。</p>
+<p>这样，ROC曲线包围的面积就能表示分类的效果，即AUC指标。当AUC为1时，ROC曲线完全在左上角，开始时所有正确的就都被判别为正确，错误的随着阈值增加才逐渐被判别为正确。说明这个指标的分类效果是最佳的，只需要把判别标准设定为最严格就可以把数据全部分类正确。gini系数和AUC类似，表示红线以上，黑线以下这块区域的面积。即Gini=2*AUC-1。</p>
+<p>另外，还有一个指标KS（Kolmogorov-Smirnov）值，KS=max(TPR-FPR)也是基于ROC图表示模型性能的。这个指标描述的是当前特征最好的分类效果。这个指标相对于AUC和gini系数而言更能说明问题，在基于各分类算法中，最终一定是取最好的结果投入运行的，比较各算法分类算法效果的最佳值比均值可能更有意义。</p>
+<p>最后，ROC曲线还可以通过光滑程度来判断模型是否过拟合。不太光滑的ROC曲线证明模型不稳定，稍微变动阈值就会模型效果较大的变化。</p>
+<p><img src="/img/ROC曲线.png" alt=""></p>
+<h3 id="PR曲线"><a href="#PR曲线" class="headerlink" title="PR曲线"></a>PR曲线</h3><p>PR曲线（Precision-Recall curve）如下图所示，横坐标为召回率 TP/(TP+FP) ，纵坐标为准确率TP/(TP+FN)。PR曲线怎么看暂时没有弄清楚，评估曲线好坏的指标有两个曲线的高低和光滑程度。对于一条光滑的曲线来说，F1值最大的位置是在P和R都相同的位置，因此做一条y=x的直线与PR曲线相交，交点就是F1最大的位置，就F1值而言，下图中绿线最好。光滑程度的原理和ROC类似，不在赘述。</p>
+<p><img src="/img/PR曲线.png" alt=""></p>
+<h3 id="指标选择"><a href="#指标选择" class="headerlink" title="指标选择"></a>指标选择</h3><p>判别指标的选择主要看具体业务对准确率或者召回率的需求。具体的说就是更偏重于检测出来数据是否正确，还是正确数据是否被检测出来。极端的例子比如地震预测，一定是更偏向于召回率，真正的地震一定要被检测出来，误报反而没那么重要。而一些风控算法或违约预测这类问题，准确率就较为重要，预测出是违约的用户确实可能违约的概率一定要大，否则冤枉别人客户体验会很差。</p>
+<p>不是那么极端的情况一般还是以追求准确率为主，看ROC和PRC相应指标即可。</p>
 
       
     </div>
@@ -343,6 +379,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+            <a href="/tags/推荐系统/" rel="tag"># 推荐系统</a>
+          
+        </div>
+      
 
       
       
@@ -352,15 +396,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/10/04/recommend-system1/" rel="next" title="协同过滤实践">
+                <i class="fa fa-chevron-left"></i> 协同过滤实践
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/02/linux-learning/" rel="prev" title="鸟哥的linux私房菜整理（1）---文件系统、磁盘">
-                鸟哥的linux私房菜整理（1）---文件系统、磁盘 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -496,7 +540,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础指标"><span class="nav-number">2.</span> <span class="nav-text">基础指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROC曲线和相关指标"><span class="nav-number">3.</span> <span class="nav-text">ROC曲线和相关指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PR曲线"><span class="nav-number">4.</span> <span class="nav-text">PR曲线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指标选择"><span class="nav-number">5.</span> <span class="nav-text">指标选择</span></a></li></ol></div>
             
 
           </div>

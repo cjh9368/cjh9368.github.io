@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="机器学习,算法,数学," />
 
 
 
@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="C.J.H">
-<meta property="og:url" content="http://yoursite.com/archives/2017/10/index.html">
+<meta name="description" content="逻辑回归是一种思想简单但是非常实用的算法，主要用来处理数据规模庞大、维度较高且对实时性有一定要求的分类问题。目前我知道的逻辑回归在工业界的应用主要有点击率预估、用户分群；在较为复杂的分类或者回归问题中逻辑回归可以用来当作stage1的分类算法，对初始数据进行一个预分类保证用于训练的数据足够干净；此外，其估计函数sigmoid函数也广泛应用于xgboost和神经网络这类较为复杂的算法，作为数据划分和">
+<meta name="keywords" content="机器学习,算法,数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑回归整理">
+<meta property="og:url" content="http://yoursite.com/2017/10/03/logistic1/index.html">
 <meta property="og:site_name" content="C.J.H">
+<meta property="og:description" content="逻辑回归是一种思想简单但是非常实用的算法，主要用来处理数据规模庞大、维度较高且对实时性有一定要求的分类问题。目前我知道的逻辑回归在工业界的应用主要有点击率预估、用户分群；在较为复杂的分类或者回归问题中逻辑回归可以用来当作stage1的分类算法，对初始数据进行一个预分类保证用于训练的数据足够干净；此外，其估计函数sigmoid函数也广泛应用于xgboost和神经网络这类较为复杂的算法，作为数据划分和">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/sigmoid函数.png">
+<meta property="og:updated_time" content="2017-10-04T15:16:03.874Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C.J.H">
+<meta name="twitter:title" content="逻辑回归整理">
+<meta name="twitter:description" content="逻辑回归是一种思想简单但是非常实用的算法，主要用来处理数据规模庞大、维度较高且对实时性有一定要求的分类问题。目前我知道的逻辑回归在工业界的应用主要有点击率预估、用户分群；在较为复杂的分类或者回归问题中逻辑回归可以用来当作stage1的分类算法，对初始数据进行一个预分类保证用于训练的数据足够干净；此外，其估计函数sigmoid函数也广泛应用于xgboost和神经网络这类较为复杂的算法，作为数据划分和">
+<meta name="twitter:image" content="http://yoursite.com/img/sigmoid函数.png">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2017/10/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/03/logistic1/"/>
 
 
 
 
 
-  <title>归档 | C.J.H</title>
+  <title>逻辑回归整理 | C.J.H</title>
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,259 +241,181 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/03/logistic1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChengJiaHui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C.J.H">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">逻辑回归整理</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-03T15:46:02+08:00">
+                2017-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 6 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/07/auc-recall/" itemprop="url">
-              
-                <span itemprop="name">理解二分类指标</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-07T09:07:37+08:00"
-              content="2017-10-07" >
-          10-07
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/04/recommend-system1/" itemprop="url">
-              
-                <span itemprop="name">协同过滤实践</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-04T15:35:07+08:00"
-              content="2017-10-04" >
-          10-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/03/logistic1/" itemprop="url">
-              
-                <span itemprop="name">逻辑回归整理</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-03T15:46:02+08:00"
-              content="2017-10-03" >
-          10-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/03/build-blog/" itemprop="url">
-              
-                <span itemprop="name">利用Git Pages和Hexo搭建个人博客</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-03T08:56:53+08:00"
-              content="2017-10-03" >
-          10-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
+        <p>逻辑回归是一种思想简单但是非常实用的算法，主要用来处理数据规模庞大、维度较高且对实时性有一定要求的分类问题。目前我知道的逻辑回归在工业界的应用主要有点击率预估、用户分群；在较为复杂的分类或者回归问题中逻辑回归可以用来当作stage1的分类算法，对初始数据进行一个预分类保证用于训练的数据足够干净；此外，其估计函数sigmoid函数也广泛应用于xgboost和神经网络这类较为复杂的算法，作为数据划分和神经元中的非线性函数（我认为主要是因为sigmoid函数的数据归一化能力和损失函数求导比较方便）。</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>目标估计函数为sigmoid函数：<br>$$<br>P(y=1|x,\theta)=\frac{1}{1+e^{-\theta{x}}}<br>$$</p>
+<p>$$<br>P(y=0|x,\theta)=\frac{e^{-\theta{x}}}{1+e^{-\theta{x}}}<br>$$<br>以\(\theta{x}\)为横坐标，\(P(y=1|x,\theta)\)为纵坐标，其图形是一条以\((0,0.5)\)为中心对称的S形曲线，如下图所示。这条曲线在中心附近增速较快，两端增速较慢，使得在用梯度下降法训练模型时，分类边界点附近的数据对模型的作用较大，而越趋于两端的数据对模型的作用就越小。这种做法在一定程度上避免了异常值对模型的作用过大，起一个归一化作用，提升模型的抗干扰能力。</p>
+<p><img src="/img/sigmoid函数.png" alt=""></p>
+<p>模型的损失函数采用对数似然函数：<br>$$<br>\prod_{i=1}^N{[P(y=1|x_i,\theta)]}^{y_i}{[P(y=0|x_i,\theta)]}^{1-y_i}<br>$$</p>
+<h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><h3 id="新的理解方式（待定）"><a href="#新的理解方式（待定）" class="headerlink" title="新的理解方式（待定）"></a>新的理解方式（待定）</h3>
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/02/linux-learning/" itemprop="url">
-              
-                <span itemprop="name">鸟哥的linux私房菜整理（1）---文件系统、磁盘</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-02T19:44:40+08:00"
-              content="2017-10-02" >
-          10-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/02/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-02T16:15:49+08:00"
-              content="2017-10-02" >
-          10-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/数学/" rel="tag"># 数学</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/03/build-blog/" rel="next" title="利用Git Pages和Hexo搭建个人博客">
+                <i class="fa fa-chevron-left"></i> 利用Git Pages和Hexo搭建个人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/04/recommend-system1/" rel="prev" title="协同过滤实践">
+                协同过滤实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -494,6 +423,8 @@
 
 
           
+  
+
 
         </div>
         
@@ -514,8 +445,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -581,6 +521,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化算法"><span class="nav-number">2.</span> <span class="nav-text">优化算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技巧"><span class="nav-number">3.</span> <span class="nav-text">技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新的理解方式（待定）"><span class="nav-number">4.</span> <span class="nav-text">新的理解方式（待定）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -707,6 +663,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
