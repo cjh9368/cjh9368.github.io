@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stopwords.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预训">
+<meta name="description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stop_words.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预">
 <meta name="keywords" content="数据挖掘,自然语言处理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="结巴分词代码阅读">
 <meta property="og:url" content="http://yoursite.com/2017/10/16/jiebaCode/index.html">
 <meta property="og:site_name" content="C.J.H">
-<meta property="og:description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stopwords.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预训">
+<meta property="og:description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stop_words.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/img/jieba_code_struct.png">
-<meta property="og:updated_time" content="2017-10-17T07:07:11.014Z">
+<meta property="og:updated_time" content="2017-10-17T07:14:25.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="结巴分词代码阅读">
-<meta name="twitter:description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stopwords.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预训">
+<meta name="twitter:description" content="代码结构结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stop_words.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预">
 <meta name="twitter:image" content="http://yoursite.com/img/jieba_code_struct.png">
 
 
@@ -344,7 +344,7 @@
       
 
       
-        <h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><p>结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stop<em>words.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预训练好的转移矩阵、观测矩阵和初始概率矩阵）；\</em>_init__.py为jieba作为一个包来使用时的接口文件，记录了几种分词模式的；__main__是jieba直接运行时通过命令行脚本；_compat.py是用来处理python2.x和python3.x部分语法不兼容问题的。</p>
+        <h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><p>结巴分词的代码结构如下图所示。extra_dict目录下存放的是分词需要的外部数据，主要包括字典数据dict.txt、各词的idf数据idf.txt和分词前需要过滤的停用词表stop_words.txt；jieba目录是主要的程序目录，该目录下analyse为tfidf、textrank等对分词后文本抽取关键词的函数，finalseg和posseg为用HMM对文本分词的程序和数据（主要为预训练好的转移矩阵、观测矩阵和初始概率矩阵）；__init__.py为jieba作为一个包来使用时的接口文件，记录了几种分词模式的；__main__是jieba直接运行时通过命令行脚本；_compat.py是用来处理python2.x和python3.x部分语法不兼容问题的。</p>
 <p><img src="/img/jieba_code_struct.png" alt=""></p>
 <h3 id="代码流程"><a href="#代码流程" class="headerlink" title="代码流程"></a>代码流程</h3><p>jieba分词分为三种模式：精确模式、全模式和搜索引擎模式，对应的调用代码如下所示（此处使用官方示例）。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding=utf-8</span></div><div class="line"><span class="keyword">import</span> jieba</div><div class="line"></div><div class="line">seg_list = jieba.cut(<span class="string">"我来到北京清华大学"</span>, cut_all=<span class="keyword">True</span>)</div><div class="line">print(<span class="string">"Full Mode: "</span> + <span class="string">"/ "</span>.join(seg_list))  <span class="comment"># 全模式</span></div><div class="line">seg_list = jieba.cut(<span class="string">"我来到北京清华大学"</span>, cut_all=<span class="keyword">False</span>)</div><div class="line">print(<span class="string">"Default Mode: "</span> + <span class="string">"/ "</span>.join(seg_list))  <span class="comment"># 精确模式</span></div><div class="line">seg_list = jieba.cut(<span class="string">"他来到了网易杭研大厦"</span>)  <span class="comment"># 默认是精确模式</span></div><div class="line">print(<span class="string">", "</span>.join(seg_list))</div><div class="line">seg_list = jieba.cut_for_search(<span class="string">"小明硕士毕业于中国科学院计算所，后在日本京都大学深造"</span>)  <span class="comment"># 搜索引擎模式</span></div><div class="line">print(<span class="string">", "</span>.join(seg_list))</div></pre></td></tr></table></figure>
